@@ -9,15 +9,17 @@ public class Factura {
 	private static int contadorIds = 1; //static porque es compartida en todas las instancias. (incremento 1)
 	private int numeroFactura;
 	private Date fecha;
+	private String cliente;
 	private double total; //¿como conseguirlo?
 	private List<Integer> articulosVenta; //crar lista de articulos incluidos en el ticket utilizando su ID
 	
 	//constructor
-	public Factura() {
+	public Factura(String cliente) {
 		numeroFactura = contadorIds;
 		++contadorIds; // una vez asignado valor a id sumamos 1 al contador para el proximo objeto.
 		fecha = new Date(); //trae la fech de hoy
-		articulosVenta = new ArrayList<>(); //inicializar la lista idArticulos
+		this.cliente = cliente;
+		articulosVenta = new ArrayList<>(); //inicializar la lista articulosVenta
 										 //Puedo omitir el tipo parametrico <> y no especificar Interger porque ya lo especificamos al declarar la lista 
 	}
 
@@ -26,16 +28,8 @@ public class Factura {
 		return numeroFactura;
 	}
 
-	public void setNumeroFactura(int numeroFactura) {
-		this.numeroFactura = numeroFactura;
-	}
-
 	public Date getFecha() {
 		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
 	}
 
 	public double getTotal() {
@@ -65,4 +59,4 @@ public class Factura {
 		}
 	}
 	
-}
+
