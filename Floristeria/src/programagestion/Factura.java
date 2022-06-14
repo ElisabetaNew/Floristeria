@@ -5,13 +5,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import herencia.Articulo;
+
 public class Factura {
 	private static int contadorIds = 1; //static porque es compartida en todas las instancias. (incremento 1)
 	private int numeroFactura;
 	private Date fecha;
 	private String cliente;
-	private double total; //¿como conseguirlo?
-	private List<Integer> articulosVenta; //crar lista de articulos incluidos en el ticket utilizando su ID
+	private double total; 
+	private List<Articulo> articulosVenta; //crear lista de articulos incluidos en el ticket utilizando su ID
 	
 	//constructor
 	public Factura(String cliente) {
@@ -20,7 +22,8 @@ public class Factura {
 		fecha = new Date(); //trae la fech de hoy
 		this.cliente = cliente;
 		articulosVenta = new ArrayList<>(); //inicializar la lista articulosVenta
-										 //Puedo omitir el tipo parametrico <> y no especificar Interger porque ya lo especificamos al declarar la lista 
+										 //Puedo omitir el tipo parametrico <> y no especifica porque ya lo especificamos al declarar la lista 
+		this.total = calcularTotal();
 	}
 
 	//Getters y setters (excepto lista)
@@ -41,22 +44,32 @@ public class Factura {
 	}
 	
 	//metodo agregar a la lista
-	public void agregarArticulosVenta(int idArticulo) {
-		articulosVenta.add(idArticulo);
+	public void agregarArticulosVenta(Articulo articulo) {
+		articulosVenta.add(articulo);
 	}
 
 	//metodo listar lista
-	public List<Integer> getArticulosVenta() {
+	public List<Articulo> getArticulosVenta() {
 		return articulosVenta;
 	}
 	
 	//metodo calcular total factura
-	public void calcularTotal (List articulosVenta) {
-		for (int i = 0; i < articulosVenta.size(); i++) {
-			
+	public double calcularTotal () {
+		double totalFactura = 0;
+
+		for (int i = 0; i < this.articulosVenta.size(); i++) {
+			totalFactura += this.articulosVenta.get(i).getPrecio();
 		}
-			
+			return totalFactura;
 		}
+
+	@Override
+	public String toString() {
+		return "Factura [numeroFactura=" + numeroFactura + ", fecha=" + fecha + ", cliente=" + cliente + ", total="
+				+ total + ", articulosVenta=" + articulosVenta + "]";
 	}
+	
+}
+	
 	
 
