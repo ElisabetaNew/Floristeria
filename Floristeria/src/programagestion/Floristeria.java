@@ -55,6 +55,16 @@ public class Floristeria {
 	}
 
 
+	//metodo listar formato factura
+	public void listarFactura(int factura, Articulo listaComprados) {
+		System.out.println("Factura de " + this.nombre + "\n" +
+				"Nº Factura: " + this.getFacturas().get(factura - 1).getNumeroFactura() + "\n"
+				+ "Cliente: " + this.getFacturas().get(factura - 1).getCliente()+ "\n" +
+				"Fecha factura: " + this.getFacturas().get(factura - 1).getFecha() + "\n"
+				+ "Articulos: " + listaComprados + "\n" + 
+				"Total Factura: "+ this.getFacturas().get(factura - 1).calcularTotal()+ "€.");
+	}
+	
 	@Override
 	public String toString() {
 		return "Floristeria [nombre=" + nombre + ", articulos=" + articulos + ", facturas=" + facturas + "]";

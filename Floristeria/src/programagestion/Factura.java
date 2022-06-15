@@ -35,6 +35,14 @@ public class Factura {
 		return fecha;
 	}
 
+	public String getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
+	}
+
 	public double getTotal() {
 		return total;
 	}
@@ -60,8 +68,16 @@ public class Factura {
 		for (int i = 0; i < this.articulosVenta.size(); i++) {
 			totalFactura += this.articulosVenta.get(i).getPrecio();
 		}
-			return totalFactura;
+		this.total = totalFactura;	
+		return totalFactura;
 		}
+	
+	//metodo listar formato factura
+	public String listarFactura() {
+		return 	"Nº Factura: " + this.getNumeroFactura() + "\n"
+				+ "Cliente: " + this.getCliente()+ "\n" +
+				"Fecha factura: " + this.getFecha();
+	}
 
 	@Override
 	public String toString() {
