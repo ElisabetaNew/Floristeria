@@ -28,7 +28,6 @@ public class Floristeria {
 		this.nombre = nombre;
 	}
 
-
 	public ArrayList<Articulo> getArticulos() {
 		return articulos;
 	}

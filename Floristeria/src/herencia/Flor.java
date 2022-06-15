@@ -2,15 +2,14 @@ package herencia;
 
 public class Flor extends Articulo{
 	
-	private static int referenciaFlor = 1; //static porque es compartida en todas las instancias. (incremento 1)
-	private String idFlor;
+	private static int referenciaFlor = 001; //static porque es compartida en todas las instancias. (incremento 1)
+	private String referenciaTipo;
 	private String color;
 	
 
 	public Flor(double precio, String color) {
 		super(precio);
-		this.idFlor = "flor -" + referenciaFlor;
-		++referenciaFlor;
+		this.referenciaTipo();
 		this.color = color;
 	}
 
@@ -24,18 +23,22 @@ public class Flor extends Articulo{
 		this.color = color;
 	}
 
-	
-
-
-	public String getIdFlor() {
-		return idFlor;
+	@Override
+	public String referenciaTipo() {
+		this.referenciaTipo = "FL " + referenciaFlor;
+		++referenciaFlor;
+		return referenciaTipo;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Flor [idFlor=" + this.idFlor + ", color=" + this.color + ", precio=" + super.precio + "]";
+		return "Flor [numeroArticulo "+ super.numeroArticulo + ",referenciaTipo=" + this.referenciaTipo + ", color=" + this.color + ", precio=" + this.precio
+				+ "]";
 	}
+
+
+	
 
 
 
