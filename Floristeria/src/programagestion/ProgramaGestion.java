@@ -1,8 +1,8 @@
 package programagestion;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.io.*;
 
 import herencia.Arbol;
 import herencia.Articulo;
@@ -12,9 +12,56 @@ import herencia.Flor;
 public class ProgramaGestion {
 
 	public static ArrayList<Floristeria> floristerias = new ArrayList<Floristeria>();
+	
+	//marcar ruta para fichero:
+	private static final String RUTA_FICHERO = "c:/cursoJava";
 
 	public static void main(String[] args) {
+		
+//		// crear fichero y escribir con FileWriter - BufferedWriter
+//		try {
+//			String ruta = "/c:/datosProgramaFloristeria.txt";
+//			String contenido = "contenido";
+//			
+//			File file = new File(ruta);
+//			
+//			//confirmar que el archivo no existe y lo da de alta
+//			if(!file.exists()) {
+//				file.createNewFile();
+//			}
+//			
+//			FileWriter fw = new FileWriter(file);
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			bw.write(contenido+"\n");
+//			bw.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		// crear archivo con PrintWriter (UTF-8 tipo de encoding (acentos/eñes))
+//		try {
+//			PrintWriter writer = new PrintWriter("/c:/datosProgramaFloristeria.txt", "UTF-8");
+//			writer.println("primera linea");
+//			writer.println("primera linea");
+//			writer.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
 
+//		//leer un archivo
+//		try {
+//			Scanner input = new Scanner(new File("c:/datosProgramaFloristeria.txt"));
+//			while (input.hasNextLine()) {
+//				String line = input.nextLine();
+//				System.out.println(line);
+//			}
+//			input.close();
+//		} catch (Exception e) {
+//			ex.printStackTrace();
+//		}
+
+		
 		// inicio datos prueba
 		// constructor Floristeria(String nombre)
 		// constructor Articulo(double precio)
@@ -41,6 +88,16 @@ public class ProgramaGestion {
 
 		// fin datos prueba
 
+		//prueba de serializacion
+		
+		private static void serializacionArticulo() {
+			
+			Floristeria floristeria = new Floristeria("Maria");
+			Articulo articulo = floristeria.getArticulos();
+			JsonSerializacionArticulo jsonSerializacionArticulo = new JsonSerializacionArticulo();
+			jsonSerializacionArticulo.serializaArticulo(null, RUTA_FICHERO + "/articulo.json");
+		}
+		
 		boolean salir = false;
 		String referencia;
 		int floristeriaActiva = escogerFloristeria();
@@ -84,6 +141,12 @@ public class ProgramaGestion {
 				int factura = crearFacturas(floristeriaActiva);
 				articulosFactura(factura, floristeriaActiva);
 				break;
+			case 12:
+				facturasAnteriores(floristeriaActiva);
+				break;
+			case 13:
+				beneficios(floristeriaActiva);
+				break;
 			case 0:
 				System.out.println("Gracias por utilizar la aplicacion. Hasta pronto");
 				salir = true;
@@ -121,7 +184,7 @@ public class ProgramaGestion {
 				System.out.println("Escoge una opcion valida, por favor.");
 			}
 		} while (opcion < MINIMO || opcion > MAXIMO);
-
+		entrada.close();
 		return opcion;
 	}
 
@@ -129,7 +192,6 @@ public class ProgramaGestion {
 	// floristerias). Cuando utilicemos este valor como posicion de una Array
 	// recordad que es valor-1
 	public static int escogerFloristeria() {
-		int size = floristerias.size();
 		int i = 0;
 
 		for (i = 0; i < floristerias.size(); i++) {
@@ -141,7 +203,7 @@ public class ProgramaGestion {
 		System.out.println("Introduce la posicion de la floristeria que quieres operar");
 		int floristeriaEscogida = sc.nextInt();
 		sc.nextLine();
-
+		sc.close();
 		return floristeriaEscogida;
 	}
 
@@ -155,6 +217,7 @@ public class ProgramaGestion {
 		Floristeria floristeriaNueva = new Floristeria(nombre);
 		floristerias.add(floristeriaNueva);
 		System.out.println("Ha sido creada la floristeria: " + floristeriaNueva.toString());
+		sc.close();
 	}
 
 	// Metodo altaarbol - ok -
@@ -169,6 +232,7 @@ public class ProgramaGestion {
 		Arbol arbolNuevo = new Arbol(precio, altura);
 		floristerias.get(floristeriaActiva - 1).agregarArticulo(arbolNuevo);
 		System.out.println("Ha sido creado el arbol: " + arbolNuevo.toString());
+		sc.close();
 	}
 
 	// Metodo altaflor - ok -
@@ -183,6 +247,7 @@ public class ProgramaGestion {
 		Flor florNueva = new Flor(precio, color);
 		floristerias.get(floristeriaActiva - 1).agregarArticulo(florNueva);
 		System.out.println("Ha sido creada la flor: " + florNueva.toString());
+		sc.close();
 	}
 
 	// Metodo altadecoracion - ok -
@@ -197,6 +262,7 @@ public class ProgramaGestion {
 		Decoracion decoracionNueva = new Decoracion(precio, material);
 		floristerias.get(floristeriaActiva - 1).agregarArticulo(decoracionNueva);
 		System.out.println("Ha sido creada la decoracion: " + decoracionNueva.toString());
+		sc.close();
 	}
 
 	// Metodo Stock por tipo articulo - ok -
@@ -254,6 +320,7 @@ public class ProgramaGestion {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("¿que referenciaTipo desea eliminar?");
 		String referencia = sc.nextLine();
+		sc.close();
 		return referencia;
 	}
 
@@ -283,6 +350,7 @@ public class ProgramaGestion {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("¿que referenciaTipo desea eliminar?");
 		String referencia = sc.nextLine();
+		sc.close();
 		return referencia;
 	}
 
@@ -306,6 +374,7 @@ public class ProgramaGestion {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("¿que referenciaTipo desea eliminar?");
 		String referencia = sc.nextLine();
+		sc.close();
 		return referencia;
 	}
 
@@ -363,8 +432,8 @@ public class ProgramaGestion {
 		for (j = 0; j < articulos.size(); j++) {
 			valor += articulos.get(j).getPrecio();
 		}
-		System.out.println(
-				"El valor total de " + floristerias.get(floristeriaActiva - 1).getNombre() + " es: " + valor + " €.");
+		System.out.println("El valor del stock de: " + floristerias.get(floristeriaActiva - 1).getNombre() + " es: "
+				+ valor + " €.");
 	}
 
 	// Metodo crear facturas - ok -
@@ -376,14 +445,15 @@ public class ProgramaGestion {
 		Factura facturaNueva = new Factura(nombreCliente);
 		floristerias.get(floristeriaActiva - 1).agregarFactura(facturaNueva);
 
+		sc.close();
 		return facturaNueva.getNumeroFactura();
 	}
 
 	// Metodo añadir articulos factura - retocar -
-//TODO me falta añadir cantidad
 	public static void articulosFactura(int factura, int floristeriaActiva) {
 
 		boolean salir = false;
+		String listaComprados = "";
 
 		do {
 			Scanner sc = new Scanner(System.in);
@@ -394,22 +464,54 @@ public class ProgramaGestion {
 			int i = 0;
 
 			for (i = 0; i < articulos.size(); i++) {
-				lista += articulos.get(i).toString()+"\n";
+				lista += articulos.get(i).toString() + "\n";
 			}
 			System.out.println(lista);
 			int articuloEscogido = sc.nextInt();
 			sc.nextLine();
 			Articulo articuloVenta = floristerias.get(floristeriaActiva - 1).getArticulos().get(articuloEscogido - 1);
-			floristerias.get(floristeriaActiva - 1).getFacturas().get(factura-1).agregarArticulosVenta(articuloVenta);
+			floristerias.get(floristeriaActiva - 1).getFacturas().get(factura - 1).agregarArticulosVenta(articuloVenta);
+			listaComprados += articuloVenta;
 			System.out.println("¿Desea añadir más articulos a la factura?");
 			String respuesta = sc.nextLine();
-			//respuesta.toLowerCase();
+			// respuesta.toLowerCase();
 			char letraRespuesta = respuesta.toLowerCase().charAt(0);
 
 			if (letraRespuesta == 'n') {
 				salir = true;
 			}
 		} while (!salir);
-
+		System.out.println("Factura de " + floristerias.get(floristeriaActiva - 1).getNombre() + "\n" + "Nº Factura: "
+				+ floristerias.get(floristeriaActiva - 1).getFacturas().get(factura - 1).getNumeroFactura() + "\n"
+				+ "Cliente: " + floristerias.get(floristeriaActiva - 1).getFacturas().get(factura - 1).getCliente()
+				+ "\n" + "Fecha factura: "
+				+ floristerias.get(floristeriaActiva - 1).getFacturas().get(factura - 1).getFecha() + "\n"
+				+ "Articulos: " + listaComprados + "\n" + "Total Factura: "
+				+ floristerias.get(floristeriaActiva - 1).getFacturas().get(factura - 1).calcularTotal() + "€.");
 	}
+
+	// Metodo mostrar lista con compras anteriores
+	public static void facturasAnteriores(int floristeriaActiva) {
+
+		ArrayList<Factura> facturas = floristerias.get(floristeriaActiva - 1).getFacturas();
+
+		for (Factura factura : facturas) {
+			System.out.println(factura.listarFactura());
+		}
+	}
+
+	// Metodo total beneficios
+	public static void beneficios(int floristeriaActiva) {
+		double valor = 0;
+
+		ArrayList<Factura> facturas = floristerias.get(floristeriaActiva - 1).getFacturas();
+		int i = 0;
+
+		for (i = 0; i < facturas.size(); i++) {
+			valor += facturas.get(i).getTotal();
+		}
+		System.out.println("Los beneficios totales de " + floristerias.get(floristeriaActiva - 1).getNombre() + " es: "
+				+ valor + " €.");
+	}
+
 }
