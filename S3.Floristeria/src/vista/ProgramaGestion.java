@@ -62,11 +62,6 @@ public class ProgramaGestion {
 			switch (menu()) {
 			case 1:
 				altaFloristeria();
-//				serializaVariosArticulos();
-//				serializaVariasFacturas();
-//				deserializaVariosArticulo();
-//				deserializaVariasFacturas();
-//				deleteFechero("/articulos.json");
 				break;
 			case 2:
 				altaArbol(floristeriaActiva);
