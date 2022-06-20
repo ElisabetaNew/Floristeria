@@ -16,7 +16,7 @@ public class JsonSerializacionFactura {
 
 	public void serializaVariasFacturas(ArrayList<Factura> facturas, String nombreFichero) {
 		String contenidoJson = this.getJSONString(facturas);
-		System.out.println(contenidoJson);
+		//System.out.println(contenidoJson);
 		MyBufferedWriter myBufferredWriter = new MyBufferedWriter();
 		myBufferredWriter.escribir(nombreFichero, contenidoJson, false);
 	}

@@ -27,6 +27,8 @@ public class JsonSerializacionArticulo {
 		return json;
 	}
 	
+	
+	
 	//Sobre carga de metodos
 	private String getJSONString(ArrayList<Articulo>articulos) {
 		Gson gson = new Gson(); // instanciamos Gson

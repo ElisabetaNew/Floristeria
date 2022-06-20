@@ -1,6 +1,8 @@
 package modelEntitats;
 
-public abstract class Articulo {
+import java.util.ArrayList;
+
+public class Articulo {
 	
 	//atributos
 	protected static int referenciaArticulo = 1; //static porque es compartida en todas las instancias. (incremento 1)
@@ -26,9 +28,8 @@ public abstract class Articulo {
 		return numeroArticulo;
 	}
 
-	
-	//metodo abstracto referenciaTipo
-	public abstract String referenciaTipo();
+//	//metodo abstracto referenciaTipo
+//	public abstract String referenciaTipo();
 
 	@Override
 	public String toString() {

@@ -8,7 +8,8 @@ public class Arbol extends Articulo {
 
 	public Arbol(double precio, int altura) {
 		super(precio);
-		this.referenciaTipo = referenciaTipo();
+		this.referenciaTipo = "AR " + referenciaArbol;
+		++referenciaArbol;
 		this.altura = altura;
 	}
 
@@ -28,12 +29,12 @@ public class Arbol extends Articulo {
 		this.referenciaTipo = referenciaTipo;
 	}
 
-	@Override
-	public String referenciaTipo() {
-		this.referenciaTipo = "AR " + referenciaArbol;
-		++referenciaArbol;
-		return referenciaTipo;
-	}
+//	@Override
+//	public String referenciaTipo() {
+//		this.referenciaTipo = "AR " + referenciaArbol;
+//		++referenciaArbol;
+//		return referenciaTipo;
+//	}
 
 	@Override
 	public String toString() {

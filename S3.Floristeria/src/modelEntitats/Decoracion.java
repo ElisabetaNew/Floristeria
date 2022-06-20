@@ -10,7 +10,8 @@ public class Decoracion extends Articulo{
 	
 	public Decoracion(double precio, String material) {
 		super(precio);
-		this.referenciaTipo();
+		this.referenciaTipo="DE " + referenciaDecoracion;
+		++referenciaDecoracion;
 		this.material = material;	
 	}
 	
@@ -25,12 +26,12 @@ public class Decoracion extends Articulo{
 	}
 
 
-	@Override
-	public String referenciaTipo() {
-		this.referenciaTipo = "DE " + referenciaDecoracion;
-		++referenciaDecoracion;
-		return referenciaTipo;
-	}
+//	@Override
+//	public String referenciaTipo() {
+//		this.referenciaTipo = "DE " + referenciaDecoracion;
+//		++referenciaDecoracion;
+//		return referenciaTipo;
+//	}
 
 
 	@Override

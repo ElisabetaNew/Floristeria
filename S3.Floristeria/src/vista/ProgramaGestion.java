@@ -42,25 +42,17 @@ public class ProgramaGestion {
 		Flor flor1 = new Flor(15.00, "Violeta");
 		Decoracion decoracion1 = new Decoracion(65.00, "Madera");
 
-		floristeria1.agregarArticulo(arbol1);
-		floristeria1.agregarArticulo(arbol2);
-		floristeria1.agregarArticulo(flor1);
-		floristeria1.agregarArticulo(decoracion1);
+		floristeria1.agregarArbol(arbol1);
+		floristeria1.agregarArbol(arbol2);
+		floristeria1.agregarFlor(flor1);
+		floristeria1.agregarDecoracion(decoracion1);
 
 		Factura factura1 = new Factura("Paco");
 		floristeria1.agregarFactura(factura1);
 
+		serializaVariosArticulos();
+		serializaVariasFacturas();
 		// fin datos prueba
-
-		//prueba de serializacion
-		
-//		private static void serializacionArticulo() {
-//			
-//			Floristeria floristeria = new Floristeria("Maria");
-//			Articulo articulo = floristeria.getArticulos();
-//			JsonSerializacionArticulo jsonSerializacionArticulo = new JsonSerializacionArticulo();
-//			jsonSerializacionArticulo.serializaArticulo(null, RUTA_FICHERO + "/articulo.json");
-//		}
 		
 		boolean salir = false;
 		String referencia;
@@ -69,20 +61,24 @@ public class ProgramaGestion {
 		do {
 			switch (menu()) {
 			case 1:
-				//altaFloristeria();
-				serializaVariosArticulos();
-				serializaVariasFacturas();
-				deserializaVariosArticulo();
-				deserializaVariasFacturas();
+				altaFloristeria();
+//				serializaVariosArticulos();
+//				serializaVariasFacturas();
+//				deserializaVariosArticulo();
+//				deserializaVariasFacturas();
+//				deleteFechero("/articulos.json");
 				break;
 			case 2:
 				altaArbol(floristeriaActiva);
+				serializaVariosArticulos();
 				break;
 			case 3:
 				altaFlor(floristeriaActiva);
+				serializaVariosArticulos();
 				break;
 			case 4:
 				altaDecoracion(floristeriaActiva);
+				serializaVariosArticulos();
 				break;
 			case 5:
 				stockPorArticulo(floristeriaActiva);
@@ -90,14 +86,17 @@ public class ProgramaGestion {
 			case 6:
 				referencia = buscarArbol();
 				eliminar(referencia, floristeriaActiva);
+				serializaVariosArticulos();
 				break;
 			case 7:
 				referencia = buscarFlor();
 				eliminar(referencia, floristeriaActiva);
+				serializaVariosArticulos();
 				break;
 			case 8:
 				referencia = buscarDecoracion(floristeriaActiva);
 				eliminar(referencia, floristeriaActiva);
+				serializaVariosArticulos();
 				break;
 			case 9:
 				stockCantidad(floristeriaActiva);
@@ -152,7 +151,6 @@ public class ProgramaGestion {
 				System.out.println("Escoge una opcion valida, por favor.");
 			}
 		} while (opcion < MINIMO || opcion > MAXIMO);
-		entrada.close();
 		return opcion;
 	}
 
@@ -185,7 +183,6 @@ public class ProgramaGestion {
 		Floristeria floristeriaNueva = new Floristeria(nombre);
 		floristerias.add(floristeriaNueva);
 		System.out.println("Ha sido creada la floristeria: " + floristeriaNueva.toString());
-		sc.close();
 	}
 
 	// Metodo altaarbol - ok -
@@ -198,9 +195,8 @@ public class ProgramaGestion {
 		int altura = sc.nextInt();
 
 		Arbol arbolNuevo = new Arbol(precio, altura);
-		floristerias.get(floristeriaActiva - 1).agregarArticulo(arbolNuevo);
+		floristerias.get(floristeriaActiva - 1).agregarArbol(arbolNuevo);
 		System.out.println("Ha sido creado el arbol: " + arbolNuevo.toString());
-		sc.close();
 	}
 
 	// Metodo altaflor - ok -
@@ -209,13 +205,15 @@ public class ProgramaGestion {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Introduce precio");
 		double precio = sc.nextDouble();
+		sc.nextLine();
 		System.out.println("Introduce color");
 		String color = sc.nextLine();
-
+		//String color1 = sc.nextLine();
+		//sc.nextLine();
+		
 		Flor florNueva = new Flor(precio, color);
-		floristerias.get(floristeriaActiva - 1).agregarArticulo(florNueva);
+		floristerias.get(floristeriaActiva - 1).agregarFlor(florNueva);
 		System.out.println("Ha sido creada la flor: " + florNueva.toString());
-		sc.close();
 	}
 
 	// Metodo altadecoracion - ok -
@@ -224,33 +222,35 @@ public class ProgramaGestion {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Introduce precio");
 		double precio = sc.nextDouble();
+		sc.nextLine();
 		System.out.println("Introduce material");
 		String material = sc.nextLine();
 
 		Decoracion decoracionNueva = new Decoracion(precio, material);
-		floristerias.get(floristeriaActiva - 1).agregarArticulo(decoracionNueva);
+		floristerias.get(floristeriaActiva - 1).agregarDecoracion(decoracionNueva);
 		System.out.println("Ha sido creada la decoracion: " + decoracionNueva.toString());
-		sc.close();
 	}
 
 	// Metodo Stock por tipo articulo - ok -
 	// utilizo metodo substring para extraer 2 primero caracteres del atributo
 	// referenciaTipo para ordenarlos
 	public static void stockPorArticulo(int floristeriaActiva) {
+		
 		String listaArboles = "", listaFlores = "", listaDecoracion = "";
 
 		int j = 0;
-		ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
+		ArrayList<Articulo> articulos = deserializaVariosArticulo();
+		//ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
 
 		while (j < articulos.size()) {
 
-			if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("AR")) {
+			if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("Ar")) {
 				listaArboles += articulos.get(j).toString() + "\n";
 
-			} else if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("FL")) {
+			} else if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("Fl")) {
 				listaFlores += articulos.get(j).toString() + "\n";
 
-			} else if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("DE")) {
+			} else if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("De")) {
 				listaDecoracion += articulos.get(j).toString() + "\n";
 
 			}
@@ -269,11 +269,12 @@ public class ProgramaGestion {
 		String lista = "";
 
 		while (i < size) {
-			ArrayList<Articulo> articulos = floristerias.get(i).getArticulos();
+			ArrayList<Articulo> articulos = deserializaVariosArticulo();
+			//ArrayList<Articulo> articulos = floristerias.get(i).getArticulos();
 			int j = 0;
 
 			while (j < articulos.size()) {
-				if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("AR")) {
+				if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("Ar")) {
 					lista += articulos.get(j).toString() + "\n";
 
 				}
@@ -299,11 +300,12 @@ public class ProgramaGestion {
 		String lista = "";
 
 		while (i < size) {
-			ArrayList<Articulo> articulos = floristerias.get(i).getArticulos();
+			ArrayList<Articulo> articulos = deserializaVariosArticulo();
+			//ArrayList<Articulo> articulos = floristerias.get(i).getArticulos();
 			int j = 0;
 
 			while (j < articulos.size()) {
-				if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("FL")) {
+				if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("Fl")) {
 					lista += articulos.get(j).toString() + "\n";
 
 				}
@@ -324,20 +326,27 @@ public class ProgramaGestion {
 
 	// Metodo buscarDecoracion - ok -
 	public static String buscarDecoracion(int floristeriaActiva) {
+		int size = floristerias.size();
+		int i = 0;
 		String lista = "";
 
-		ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
-		int j = 0;
+		while (i < size) {
+			ArrayList<Articulo> articulos = deserializaVariosArticulo();
+			//ArrayList<Articulo> articulos = floristerias.get(i).getArticulos();
+			int j = 0;
 
-		while (j < articulos.size()) {
-			if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("DE")) {
-				lista += articulos.get(j).toString() + "\n";
+			while (j < articulos.size()) {
+				if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("De")) {
+					lista += articulos.get(j).toString() + "\n";
 
+				}
+				++j;
 			}
-			++j;
+
+			System.out.println("FLORISTERIA: " + floristerias.get(i).getNombre() + "\n");
+			System.out.println("DECORACIONES\n" + lista);
+			++i;
 		}
-		System.out.println("FLORISTERIA: " + floristerias.get(floristeriaActiva - 1).getNombre() + "\n");
-		System.out.println("DECORACION\n" + lista);
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println("¿que referenciaTipo desea eliminar?");
@@ -346,37 +355,46 @@ public class ProgramaGestion {
 		return referencia;
 	}
 
+
 	// Metodo eliminar referencia - ok -
 	public static void eliminar(String referencia, int floristeriaActiva) {
 
-		ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
+		ArrayList<Articulo> articulos = deserializaVariosArticulo();
+		//ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
 		int j = 0;
-
-		while (j < articulos.size()) {
-			if (articulos.get(j).referenciaTipo().equalsIgnoreCase(referencia)) {
-				articulos.remove(j);
-			}
-			++j;
+		boolean encontrado = false;
+		try {
+			while (j < articulos.size() && encontrado==false ) {
+				if (articulos.get(j).toString().substring(0, 4).equalsIgnoreCase(referencia)) {
+					articulos.remove(j);
+					encontrado = true;
+				}
+				++j;
+			} System.out.println("La referencia: " + referencia + " ha sido eliminada");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
+		
 
-		System.out.println("La referencia: " + referencia + " ha sido eliminada");
+		
 	}
 
 	// Metodo listar stock con cantidad - ok -
 	public static void stockCantidad(int floristeriaActiva) {
 		int sumaArboles = 0, sumaFlores = 0, sumaDecoracion = 0;
 
-		ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
+		ArrayList<Articulo> articulos = deserializaVariosArticulo();
+		//ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
 		int j = 0;
 
 		while (j < articulos.size()) {
-			if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("AR")) {
+			if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("AR")) {
 				++sumaArboles;
 
-			} else if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("FL")) {
+			} else if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("FL")) {
 				++sumaFlores;
 
-			} else if (articulos.get(j).referenciaTipo().substring(0, 2).equalsIgnoreCase("DE")) {
+			} else if (articulos.get(j).toString().substring(0, 2).equalsIgnoreCase("DE")) {
 				++sumaDecoracion;
 
 			}
@@ -390,11 +408,13 @@ public class ProgramaGestion {
 
 	}
 
+
 	// Metodo valor total floristeria - ok -
 	public static void valorFloristeria(int floristeriaActiva) {
 		double valor = 0;
-
-		ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
+		
+		ArrayList<Articulo> articulos = deserializaVariosArticulo();
+		//ArrayList<Articulo> articulos = floristerias.get(floristeriaActiva - 1).getArticulos();
 		int j = 0;
 
 		for (j = 0; j < articulos.size(); j++) {
@@ -413,7 +433,6 @@ public class ProgramaGestion {
 		Factura facturaNueva = new Factura(nombreCliente);
 		floristerias.get(floristeriaActiva - 1).agregarFactura(facturaNueva);
 
-		sc.close();
 		return facturaNueva.getNumeroFactura();
 	}
 
@@ -496,11 +515,32 @@ public class ProgramaGestion {
 
 	private static void deserializaVariasFacturas() {
 		JsonDeserializacionFactura jsonDeserializacionFactura = new JsonDeserializacionFactura();
-		jsonDeserializacionFactura.deserializaVariasFacturas(RUTA_FICHERO + "/facturas.json" );
+		ArrayList<Factura>facturas = jsonDeserializacionFactura.deserializaVariasFacturas(RUTA_FICHERO + "/facturas.json" );
+		for (Factura factura : facturas) {
+			System.out.println(facturas);
+		}
 	}
 	
-	private static void deserializaVariosArticulo() {
+	private static ArrayList<Articulo> deserializaVariosArticulo() {
 		JsonDeserializacionArticulo jsonDeserializacionArticulo = new JsonDeserializacionArticulo();
-		jsonDeserializacionArticulo.deserializaVariosArticulos(RUTA_FICHERO + "/articulos.json" );
+		ArrayList<Articulo> articulos = jsonDeserializacionArticulo.deserializaVariosArticulos(RUTA_FICHERO + "/articulos.json" );
+		//for (Articulo articulo : articulos) {
+			//System.out.println(articulos);
+		
+		//}
+		return articulos;
 	}
+	
+	
+//	private static void deleteFechero(String nombreFichero) {
+//		try {
+//			File archivo = new File(RUTA_FICHERO + nombreFichero);
+//			archivo.delete();
+//		}catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//		
+//	}
+	
+	
 }

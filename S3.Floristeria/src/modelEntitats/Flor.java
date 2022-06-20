@@ -8,7 +8,8 @@ public class Flor extends Articulo {
 
 	public Flor(double precio, String color) {
 		super(precio);
-		this.referenciaTipo = referenciaTipo();
+		this.referenciaTipo = "FL " + referenciaFlor;
+		++referenciaFlor;
 		this.color = color;
 	}
 
@@ -28,12 +29,12 @@ public class Flor extends Articulo {
 		this.referenciaTipo = referenciaTipo;
 	}
 
-	@Override
-	public String referenciaTipo() {
-		this.referenciaTipo = "FL " + referenciaFlor;
-		++referenciaFlor;
-		return referenciaTipo;
-	}
+//	@Override
+//	public String referenciaTipo() {
+//		this.referenciaTipo = "FL " + referenciaFlor;
+//		++referenciaFlor;
+//		return referenciaTipo;
+//	}
 
 	@Override
 	public String toString() {

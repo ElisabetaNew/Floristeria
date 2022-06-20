@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import modelEntitats.ArticuloBd;
+import modelEntitats.Articulo;
 
 
 public class JsonDeserializacionArticulo {
 
-	public ArticuloBd deserializaArticulo(String nombreFichero) {
-		ArticuloBd articulo = null;
+	public Articulo deserializaArticulo(String nombreFichero) {
+		Articulo articulo = null;
 		MyBufferedReaderRetornaString myBufferedReader = new MyBufferedReaderRetornaString();
 		String contenido = myBufferedReader.leer(nombreFichero);
 		articulo = this.getArticuloFromJson(contenido);
@@ -20,24 +20,24 @@ public class JsonDeserializacionArticulo {
 		return articulo;
 	}
 	
-	public ArrayList<ArticuloBd> deserializaVariosArticulos(String nombreFichero){	
+	public ArrayList<Articulo> deserializaVariosArticulos(String nombreFichero){	
 		MyBufferedReaderRetornaString myBufferedReader = new MyBufferedReaderRetornaString();
 		String contenido = myBufferedReader.leer(nombreFichero);
-		ArrayList<ArticuloBd>articulos = getArrayArticulosFromJsom (contenido);
+		ArrayList<Articulo>articulos = getArrayArticulosFromJsom (contenido);
 		return articulos;
 	}
 	
-	private ArticuloBd getArticuloFromJson(String contenidoJson) {
+	private Articulo getArticuloFromJson(String contenidoJson) {
 		Gson gson = new Gson();
-		ArticuloBd articulo = gson.fromJson(contenidoJson, ArticuloBd.class);
+		Articulo articulo = gson.fromJson(contenidoJson, Articulo.class);
 		return articulo;
 	}
 	
-	private ArrayList<ArticuloBd> getArrayArticulosFromJsom (String contenidoJson){
-		Type listaTipo = new TypeToken<ArrayList<ArticuloBd>>() {
+	private ArrayList<Articulo> getArrayArticulosFromJsom (String contenidoJson){
+		Type listaTipo = new TypeToken<ArrayList<Articulo>>() {
 		}.getType();
 		
-		ArrayList<ArticuloBd>articulos=null;
+		ArrayList<Articulo>articulos=null;
 		
 		
 		Gson gson = new Gson();
